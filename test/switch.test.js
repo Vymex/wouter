@@ -199,3 +199,24 @@ it("correctly handles fragments as children", async () => {
   expect(rendered.length).toBe(1);
   expect(result.findByType("h2")).toBeTruthy();
 });
+
+it('correctly ignores falsy values as children', () => { 
+  const result = testRouteRender(
+    "/to-render",
+    <Switch>
+      {undefined}
+      {''}
+      {0}
+      {false}
+      {null}
+      <Route path="/to-render">
+        <h4 />
+      </Route>
+    </Switch>
+  );
+
+  const rendered = result.children[0].children;
+
+  expect(rendered.length).toBe(1);
+  expect(result.findAllByType('h4')).toBeTruthy();
+});
